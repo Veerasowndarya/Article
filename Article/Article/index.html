@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DailyNews</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-------------------------------------Header---------------------------------------------->
+
+  <header class="bg-white shadow-md px-6 py-4 flex justify-between items-center sticky top-0 z-30">
+      <div class="flex items-center space-x-3">
+        <button id="hamburger" class="md:hidden block p-2 rounded focus:outline-none" aria-label="Open menu">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <img src="https://cdn-icons-png.flaticon.com/512/21/21601.png" alt="Logo" class="h-8 w-8">
+        <h1 class="text-2xl font-bold text-red-700">DailyNews</h1>
+      </div>
+      <div class="flex items-center space-x-2">
+        <nav id="main-nav" class="flex space-x-4 items-center md:flex md:space-x-4 md:static absolute top-16 left-0 w-full bg-white md:bg-transparent md:w-auto md:top-auto md:left-auto transition-all duration-300 ease-in-out" style="display: none;">
+          <a href="#home" class="text-gray-600 hover:text-red-700">Home</a>
+          <a href="#more-news" class="text-gray-600 hover:text-red-700">More News</a>
+          <a href="#phone" class="text-gray-600 hover:text-red-700">Contact</a>
+          <a href="#" id="logout-nav" class="text-gray-600 hover:text-red-700 hidden">Logout</a>
+          <a href="login.html" id="login-nav" class="text-gray-600 hover:text-red-700">Login</a>
+        </nav>
+      </div>
+  </header>
+
+    <script>
+      // Hamburger menu toggle
+      const hamburger = document.getElementById('hamburger');
+      const nav = document.getElementById('main-nav');
+      function toggleNav() {
+        if (window.innerWidth < 768) {
+          nav.style.display = nav.style.display === 'none' || nav.style.display === '' ? 'flex' : 'none';
+        }
+      }
+      hamburger.addEventListener('click', toggleNav);
+      // Ensure nav is visible on desktop resize
+      window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768) {
+          nav.style.display = 'flex';
+        } else {
+          nav.style.display = 'none';
+        }
+      });
+      // Initial state
+      if (window.innerWidth >= 768) {
+        nav.style.display = 'flex';
+      }
+    </script>
+
+    <style>
+      /* Responsive header and nav */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column !important;
+          align-items: flex-start !important;
+          padding: 1rem 0.5rem !important;
+        }
+        nav {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          background: #fff;
+          box-shadow: none;
+        }
+        nav a {
+          margin: 0.5rem 0 !important;
+          padding: 0.5rem 1rem !important;
+          width: 100%;
+          text-align: left !important;
+        }
+      }
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 1.25rem !important;
+        }
+        .hero-title {
+          font-size: 2rem !important;
+        }
+        .hero-subtitle {
+          font-size: 1rem !important;
+        }
+        #articles-container {
+          grid-template-columns: 1fr !important;
+          padding: 1rem !important;
+        }
+      }
+    </style>
+
+
+  <!-- Hero / Banner: Top Trending News -->
+  <section id="home" class="bg-gradient-to-r from-red-600 to-pink-700 text-white py-12 px-6 flex flex-col md:flex-row items-center justify-between">
+    <div class="md:w-1/2 text-center md:text-left mb-8 md:mb-0" id="hero-news-content">
+      <!-- JS will inject top trending news here -->
+    </div>
+    <div class="md:w-1/2 flex justify-center" id="hero-news-image">
+      <img src="" alt="Narendra Modi" class="rounded-lg shadow-lg w-full max-w-xs md:max-w-md object-cover" />
+    </div>
+  </section>
+
+
+  <!-- Blog Articles: 3 Responsive Tiles -->
+  <section id="daily" class="p-6">
+    <h2 class="text-2xl font-bold text-red-700 mb-4">Top News</h2>
+    <div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-6" id="articles-container">
+      <!-- JS will inject articles here -->
+    </div>
+    <style>
+      @media (max-width: 480px) {
+        .xs\:grid-cols-2 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+      }
+      .news-animate {
+        opacity: 0;
+        transform: translateY(30px) scale(0.98);
+        transition: opacity 0.5s cubic-bezier(.4,0,.2,1), transform 0.5s cubic-bezier(.4,0,.2,1);
+      }
+      .news-animate.visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      .news-hover:hover {
+        box-shadow: 0 8px 32px 0 rgba(220,38,38,0.15), 0 1.5px 4px 0 rgba(0,0,0,0.04);
+        transform: translateY(-4px) scale(1.03);
+        transition: box-shadow 0.3s, transform 0.3s;
+      }
+    </style>
+  </section>
+
+  <!-- More News: Sliding Source Cards -->
+  <section id="more-news" class="p-6 scroll-mt-20">
+    <h2 class="text-2xl font-bold text-red-700 mb-6">More News</h2>
+    <div class="relative">
+      <button id="slider-left" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-red-200 rounded-full shadow p-2 hover:bg-red-100 md:block">
+        <svg class="w-6 h-6 text-red-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      <div id="news-slider" class="flex overflow-x-auto gap-6 pb-4 scrollbar-thin scrollbar-thumb-red-200 scrollbar-track-transparent snap-x snap-mandatory">
+        <!-- JS will inject source cards here -->
+      </div>
+      <button id="slider-right" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-red-200 rounded-full shadow p-2 hover:bg-red-100 md:block">
+        <svg class="w-6 h-6 text-red-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+
+
+
+  <!-- Phone and Sign In Side by Side -->
+
+  <section id="phone" class="max-w-5xl mx-auto my-16 px-2">
+    <div class="flex flex-col md:flex-row gap-12 items-start justify-between">
+  <!-- Phone Info, left -->
+      <div class="flex-1">
+        <div class="space-y-8">
+          <div>
+            <div class="text-xl font-semibold text-red-700">Phone</div>
+            <div class="text-red-700 text-lg font-medium">1800-123-456</div>
+          </div>
+          <div>
+            <div class="text-xl font-semibold text-red-700">Email</div>
+            <div class="text-red-700 text-lg font-medium">contact@dailynews.com</div>
+          </div>
+          <div>
+            <div class="text-xl font-semibold text-red-700">Location</div>
+            <div class="text-red-700 text-lg font-medium">India</div>
+          </div>
+        </div>
+      </div>
+      <!-- Sign In, right -->
+      <div class="flex-1 flex flex-col items-start md:items-end mt-12 md:mt-0">
+        <div class="flex items-center mb-2">
+          <svg class="w-7 h-7 text-red-600 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 00-8 0v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg>
+          <span class="text-lg font-semibold text-red-700">Sign in for personalized news</span>
+        </div>
+        <a href="login.html" class="mt-3 bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-2 rounded-full text-base transition">Sign in</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-gradient-to-r from-red-600 to-pink-700 text-white text-center py-4 shadow-inner mt-8">
+    <span class="">&copy; 2025 DailyNews. All rights reserved.</span>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Login/logout nav logic
+    function setLoggedIn(loggedIn) {
+      const loginNav = document.getElementById('login-nav');
+      const logoutNav = document.getElementById('logout-nav');
+      if (loggedIn) {
+        loginNav.classList.add('hidden');
+        logoutNav.classList.remove('hidden');
+      } else {
+        loginNav.classList.remove('hidden');
+        logoutNav.classList.add('hidden');
+      }
+    }
+    // On page load
+    if (!localStorage.getItem('news_logged_in')) {
+      setLoggedIn(false);
+    } else {
+      setLoggedIn(true);
+    }
+    document.getElementById('logout-nav').addEventListener('click', function(e) {
+      e.preventDefault();
+      localStorage.removeItem('news_logged_in');
+      setLoggedIn(false);
+      window.location.href = 'login.html';
+    });
+  </script>
+</body>
+</html>
